@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { margin: 0; padding: 12px; font-family: sans-serif; background: transparent; }
+        h3 { font-size: 13px; font-weight: 500; color: #888; margin: 24px 0 4px; letter-spacing: .04em; text-transform: uppercase; }
+        .section { margin-bottom: 8px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(0,0,0,.08); }
+        @media (prefers-color-scheme: dark) {
+          body { color: #c2c0b6; }
+          .section { border-color: rgba(255,255,255,.08); }
+          h3 { color: #666; }
+        }
+    </style>
+</head>
+<body>
+<h3>Enums y lógica central</h3>
+<div class="section" id="s1"></div>
+<h3>Criaturas e interfaces</h3>
+<div class="section" id="s2"></div>
+<h3>Poké Esferas</h3>
+<div class="section" id="s3"></div>
+<h3>Entrenadores, objetos y batalla</h3>
+<div class="section" id="s4"></div>
+<h3>Capa de base de datos (JDBC)</h3>
+<div class="section" id="s5"></div>
+
+<script type="module">
+    import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+    await document.fonts.ready;
+    const tv = {
+      darkMode: dark,
+      fontSize: '13px',
+      fontFamily: '"Anthropic Sans", system-ui, sans-serif',
+      lineColor:          dark ? '#9c9a92' : '#73726c',
+      textColor:          dark ? '#c2c0b6' : '#3d3d3a',
+      primaryColor:       dark ? '#2e2b52' : '#EEEDFE',
+      primaryTextColor:   dark ? '#cbc8f6' : '#3C3489',
+      primaryBorderColor: '#7F77DD',
+      secondaryColor:       dark ? '#0d4433' : '#E1F5EE',
+      secondaryTextColor:   dark ? '#5DCAA5' : '#0F6E56',
+      secondaryBorderColor: dark ? '#1D9E75' : '#1D9E75',
+      tertiaryColor:       dark ? '#3d1c12' : '#FAECE7',
+      tertiaryTextColor:   dark ? '#F0997B' : '#712B13',
+      tertiaryBorderColor: dark ? '#D85A30' : '#D85A30',
+      noteBkgColor:   dark ? '#2c2c2a' : '#F1EFE8',
+      noteTextColor:  dark ? '#c2c0b6' : '#3d3d3a',
+    };
+    mermaid.initialize({ startOnLoad: false, theme: 'base', fontFamily: tv.fontFamily, themeVariables: tv });
+
+    const diagrams = [
+      [`d1`, `s1`, `classDiagram
+        class TipoElemento {
+            <<enumeration>>
+            FUEGO
+            AGUA
+            PLANTA
+            ELECTRICO
+            TIERRA
+            HIELO
+            NORMAL
+        }
+        class Categoria {
+            <<enumeration>>
+            FISICO
+            ESPECIAL
+            ESTADO
+        }
+        class NivelDificultad {
+            <<enumeration>>
+            FACIL
+            MEDIO
+            DIFICIL
+            EXPERTO
+            +getMultiplicadorStats() double
+            +getIAActiva() boolean
+        }
+        class Movimiento {
+            -String nombre
+            -TipoElemento tipo
+            -Categoria categoria
+            -int poder
+            -int precision
+            -int ppActual
+            -int ppMax
+            +usar() boolean
+            +restaurarPP() void
+            +getPoder() int
+            +getTipo() TipoElemento
+        }
+        Movimiento --> TipoElemento
+        Movimiento --> Categoria
+    `],
+      [`d2`, `s2`, `classDiagram
+        class Nivelable {
+            <<interface>>
+            +ganarExp(int exp) void
+            +subirNivel() void
+            +getNivel() int
+        }
+        class Capturable {
+            <<interface>>
+            +getTasaCaptura() double
+            +getTipo() TipoElemento
+            +getHpActual() int
+            +getHpMax() int
+        }
+        class Criatura {
+            <<abstract>>
+            -String nombre
+            -int nivel
+            -int hp
+            -int hpMax
+            -int ataque
+            -int defensa
+            -int velocidad
+            -int expTotal
+            -TipoElemento tipo
+            -Movimiento[] movimientos
+            +atacar(Movimiento mov) int
+            +recibirDanio(int danio) void
+            +estaViva() boolean
+            +ganarExp(int exp) void
+            +subirNivel() void
+            +getTasaCaptura() double
+            +getStats() int[]
+        }
+        class CriaturaFuego {
+            -int calor
+            +habilidadEspecial() void
+        }
+        class CriaturaAgua {
+            -int humedad
+            +habilidadEspecial() void
+        }
+        class CriaturaPlanta {
+            -int fotosintesis
+            +habilidadEspecial() void
+        }
+        Criatura ..|> Nivelable
+        Criatura ..|> Capturable
+        Criatura <|-- CriaturaFuego
+        Criatura <|-- CriaturaAgua
+        Criatura <|-- CriaturaPlanta
+        Criatura "1" *-- "1..4" Movimiento
+    `],
+      [`d3`, `s3`, `classDiagram
+        class PokeEsfera {
+            <<abstract>>
+            -String nombre
+            -double tasaBase
+            +calcularTasaCaptura(Capturable c) double
+            +lanzar(Capturable c) boolean
+            +getNombre() String
+        }
+        class EsferaNormal {
+            tasaBase = 1.0
+            +calcularTasaCaptura(Capturable c) double
+        }
+        class SuperEsfera {
+            tasaBase = 1.5
+            +calcularTasaCaptura(Capturable c) double
+        }
+        class UltraEsfera {
+            tasaBase = 2.0
+            +calcularTasaCaptura(Capturable c) double
+        }
+        class MasterEsfera {
+            tasaBase = 255.0
+            +calcularTasaCaptura(Capturable c) double
+            +lanzar(Capturable c) boolean
+        }
+        class EsferaTipo {
+            -TipoElemento tipoObjetivo
+            -double bonusTipo
+            tasaBase = 1.5
+            +calcularTasaCaptura(Capturable c) double
+        }
+        class EsferaHP {
+            tasaBase = 1.0
+            +calcularTasaCaptura(Capturable c) double
+        }
+        PokeEsfera <|-- EsferaNormal
+        PokeEsfera <|-- SuperEsfera
+        PokeEsfera <|-- UltraEsfera
+        PokeEsfera <|-- MasterEsfera
+        PokeEsfera <|-- EsferaTipo
+        PokeEsfera <|-- EsferaHP
+        EsferaTipo --> TipoElemento
+    `],
+      [`d4`, `s4`, `classDiagram
+        class Objeto {
+            <<abstract>>
+            -String nombre
+            -String descripcion
+            -int cantidad
+            +usar(Criatura objetivo) void
+            +getNombre() String
+            +getCantidad() int
+        }
+        class ObjetoCuracion {
+            -int cantidadCura
+            +usar(Criatura objetivo) void
+        }
+        class Entrenador {
+            <<abstract>>
+            #String nombre
+            #Criatura[] equipo
+            +elegirCriatura() Criatura
+            +tieneCriaturasVivas() boolean
+            +getNombre() String
+        }
+        class Jugador {
+            -Objeto[] bolsa
+            -PokeEsfera[] esferas
+            -int dinero
+            -int medallas
+            +usarObjeto(Objeto obj, Criatura c) void
+            +lanzarEsfera(PokeEsfera e, Criatura c) boolean
+        }
+        class EntrenadorNPC {
+            -String dialogo
+            -NivelDificultad dificultad
+            -int recompensa
+            +elegirMovimiento(Criatura propia, Criatura rival) Movimiento
+            +elegirCriatura() Criatura
+            +saludar() String
+        }
+        class Batalla {
+            -Entrenador atacante
+            -Entrenador defensor
+            -NivelDificultad dificultad
+            -int turnoActual
+            -boolean esActiva
+            +iniciar() void
+            +ejecutarTurno(Movimiento mov) void
+            +calcularDanio(Movimiento m, Criatura at, Criatura def) int
+            +calcularVentajaTipo(TipoElemento at, TipoElemento def) double
+            +haTerminado() boolean
+            +distribuirExp() void
+        }
+        Entrenador <|-- Jugador
+        Entrenador <|-- EntrenadorNPC
+        Objeto <|-- ObjetoCuracion
+        Objeto <|-- PokeEsfera
+        Jugador "1" *-- "0..*" Objeto
+        Jugador "1" *-- "0..*" PokeEsfera
+        Entrenador "1" *-- "1..6" Criatura
+        Batalla "1" --> "2" Entrenador
+        Batalla --> NivelDificultad
+        EntrenadorNPC --> NivelDificultad
+    `],
+      [`d5`, `s5`, `classDiagram
+        class ConexionDB {
+            -static ConexionDB instancia
+            -Connection conexion
+            -String URL
+            -String USUARIO
+            -String PASSWORD
+            -ConexionDB()
+            +static getInstance() ConexionDB
+            +getConexion() Connection
+            +cerrar() void
+        }
+        class RepositorioCriatura {
+            -ConexionDB db
+            +buscarPorId(int id) Criatura
+            +obtenerStatsPorNivel(int criaturaId, int nivel) int[]
+            +guardarProgreso(Criatura c, int jugadorId) void
+            +listarTodas() List~Criatura~
+        }
+        class RepositorioJugador {
+            -ConexionDB db
+            +guardar(Jugador j) void
+            +cargar(int jugadorId) Jugador
+            +actualizarDinero(int jugadorId, int dinero) void
+        }
+        class SchemaMySQL {
+            <<note>>
+            TABLE criaturas
+            TABLE stats_por_nivel
+            TABLE movimientos
+            TABLE jugadores
+            TABLE equipo_jugador
+        }
+        RepositorioCriatura --> ConexionDB
+        RepositorioJugador --> ConexionDB
+        ConexionDB ..> SchemaMySQL
+    `],
+    ];
+
+    for (const [id, sectionId, src] of diagrams) {
+      const { svg } = await mermaid.render(id, src);
+      document.getElementById(sectionId).innerHTML = svg;
+    }
+</script>
+</body>
+</html>
