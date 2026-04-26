@@ -22,6 +22,10 @@ public class BattleController {
         this.gson = gson;
     }
 
+    private void json(io.javalin.http.Context ctx, Object obj) {
+        ctx.contentType("application/json").result(gson.toJson(obj));
+    }
+
     public void registrar(Javalin app) {
         // Returns the current battle state (used on battle screen load)
         app.get("/api/battle/state", ctx -> {
@@ -30,7 +34,7 @@ public class BattleController {
                 ctx.status(404).result("No hay batalla activa");
                 return;
             }
-            ctx.json(DtoMapper.toBattleState(batalla));
+            json(ctx, DtoMapper.toBattleState(batalla));
         });
 
         // Executes one turn. Action types: ATACAR, OBJETO, ESFERA, HUIR
@@ -113,7 +117,7 @@ public class BattleController {
                 sesion.cerrarBatalla();
             }
 
-            ctx.json(DtoMapper.toGameState(sesion, String.join("\n", log)));
+            json(ctx, DtoMapper.toGameState(sesion, String.join("\n", log)));
         });
     }
 }
