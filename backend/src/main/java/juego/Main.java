@@ -6,7 +6,7 @@ import juego.api.BattleController;
 import juego.api.GameController;
 import juego.sesion.SesionJuego;
 
-// Entry point. Starts the Javalin REST API on port 7070.
+// Entry point. Starts the Javalin REST API on port 7070. MAIN FILE
 public class Main {
 
     public static void main(String[] args) {
