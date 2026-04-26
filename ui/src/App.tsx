@@ -1,122 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react";
+import type { GameState } from "./types/game";
+import TitleScreen from "./components/TitleScreen";
+import WorldMap from "./components/WorldMap";
+import BattleScreen from "./components/BattleScreen";
 
-function App() {
-  const [count, setCount] = useState(0)
+// Root component. Routes between game phases based on the fase field from the backend.
+export default function App() {
+  const [gameState, setGameState] = useState<GameState | null>(null);
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+  function handleUpdate(state: GameState) {
+    setGameState(state);
+  }
+
+  if (!gameState || gameState.fase === "INICIO") {
+    return <TitleScreen onStart={handleUpdate} />;
+  }
+
+  if (gameState.fase === "BATALLA" && gameState.batalla && gameState.jugador) {
+    return (
+      <BattleScreen
+        battle={gameState.batalla}
+        player={gameState.jugador}
+        onUpdate={handleUpdate}
+      />
+    );
+  }
+
+  if (gameState.fase === "JUEGO_TERMINADO") {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "#0a0a14",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#f0f0f0",
+        }}
+      >
+        <div style={{ color: "#f5a623", fontSize: 48, fontWeight: 900, marginBottom: 16 }}>
+          CAMPEON
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
+        <div style={{ color: "#aaa", fontSize: 18, marginBottom: 8 }}>
+          {gameState.jugador?.nombre} ha derrotado al Campeon Rex!
+        </div>
+        <div style={{ color: "#666", fontSize: 14, marginBottom: 32 }}>
+          Criaturas capturadas: {gameState.jugador?.capturadas.length ?? 0}
         </div>
         <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+          style={{
+            background: "linear-gradient(135deg, #1a5a8a, #0d3a5a)",
+            color: "#fff",
+            border: "2px solid #3a8ab8",
+            borderRadius: 10,
+            padding: "14px 36px",
+            fontSize: 16,
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+          onClick={() => setGameState(null)}
         >
-          Count is {count}
+          JUGAR DE NUEVO
         </button>
-      </section>
+      </div>
+    );
+  }
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+  return <WorldMap gameState={gameState} onUpdate={handleUpdate} />;
 }
-
-export default App
