@@ -122,6 +122,94 @@ public class SesionJuego {
         }
     }
 
+     /* Guarda el estado actual de la sesión en la base de datos.
+     * Asume que ya existe una fila en 'sesion_juego' (o la crea).
+     */
+    public void guardarSesion(int idSesion) {
+    String sqlSesion = """
+        INSERT INTO sesion_juego (id, jugador_id, fase, zona, siguiente_npc_index, puedes_curar)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ON CONFLICT (id) DO UPDATE SET
+            fase = EXCLUDED.fase,
+            zona = EXCLUDED.zona,
+            siguiente_npc_index = EXCLUDED.siguiente_npc_index,
+            puedes_curar = EXCLUDED.puedes_curar
+        """;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlSesion)) {
+    
+            stmt.setInt(1, idSesion);
+            stmt.setInt(2, jugador.getId());               // Asumiendo que Jugador tiene getId()
+            stmt.setString(3, fase.name());
+            stmt.setInt(4, zona);
+            stmt.setInt(5, siguienteNpcIndex);
+            stmt.setBoolean(6, puedesCurar);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.err.println("Error al guardar la sesión: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Carga el estado de una sesión desde la base de datos.
+     * Reconstruye el jugador, sus criaturas, objetos, esferas, y la fase actual.
+     */
+    public void cargarSesion(int idSesion) {
+        String sql = """
+            SELECT sj.fase, sj.zona, sj.siguiente_npc_index, sj.puedes_curar,
+                   j.nombre, j.dinero, j.medallas
+            FROM sesion_juego sj
+            JOIN jugador j ON sj.jugador_id = j.id_entrenador
+            WHERE sj.id = ?
+        """;
+    
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    
+            stmt.setInt(1, idSesion);
+            ResultSet rs = stmt.executeQuery();
+    
+            if (rs.next()) {
+                this.fase = Fase.valueOf(rs.getString("fase"));
+                this.zona = rs.getInt("zona");
+                this.siguienteNpcIndex = rs.getInt("siguiente_npc_index");
+                this.puedesCurar = rs.getBoolean("puedes_curar");
+    
+                // Reconstruir el jugador (necesitarás ajustar según tu lógica)
+                String nombreJugador = rs.getString("nombre");
+                int dinero = rs.getInt("dinero");
+                int medallas = rs.getInt("medallas");
+    
+                this.jugador = new Jugador(nombreJugador, null);      // Starter se asigna después
+                this.jugador.setDinero(dinero);
+                this.jugador.setMedallas(medallas);
+    
+                // Cargar criaturas, objetos y esferas desde sus tablas (omitido por brevedad)
+                cargarCriaturasDelJugador(conn);
+                cargarObjetosDelJugador(conn);
+                cargarEsferasDelJugador(conn);
+            }
+    
+        } catch (SQLException e) {
+            System.err.println("Error al cargar la sesión: " + e.getMessage());
+        }
+    }
+
+    // Métodos auxiliares privados
+    private void cargarCriaturasDelJugador(Connection conn) throws SQLException {
+        String sql = """
+            SELECT c.id, c.especie_id, c.nivel, c.hp_actual, c.hp_max,
+                   c.ataque, c.defensa, c.velocidad, c.exp_total, c.exp_siguiente_nivel
+            FROM criatura c
+            WHERE c.entrenador_id = ? AND c.guardada_caja = FALSE
+        """;
+        // ... reconstruir objetos Criatura y agregarlos al equipo del jugador
+    }
+    
+    private void cargarObjetosDelJugador(Connection conn) throws SQLException {}
+    private void cargarEsferasDelJugador(Connection conn) throws SQLException {}
     public Jugador getJugador() { return jugador; }
     public Batalla getBatallaActual() { return batallaActual; }
     public Fase getFase() { return fase; }
