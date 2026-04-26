@@ -22,9 +22,11 @@ public class GameController {
     public void registrar(Javalin app) {
         // Creates a new game session with the player's name and chosen starter
         app.post("/api/game/new", ctx -> {
-            Map<?, ?> body = gson.fromJson(ctx.body(), Map.class);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> body = gson.fromJson(ctx.body(), Map.class);
             String nombre = (String) body.get("nombre");
-            int starterIndex = ((Number) body.getOrDefault("starterIndex", 0)).intValue();
+            Number starterRaw = (Number) body.getOrDefault("starterIndex", 0);
+            int starterIndex = starterRaw != null ? starterRaw.intValue() : 0;
             sesion.iniciar(nombre, starterIndex);
             ctx.json(DtoMapper.toGameState(sesion, null));
         });

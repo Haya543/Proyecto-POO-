@@ -35,9 +35,11 @@ public class BattleController {
 
         // Executes one turn. Action types: ATACAR, OBJETO, ESFERA, HUIR
         app.post("/api/battle/action", ctx -> {
-            Map<?, ?> body = gson.fromJson(ctx.body(), Map.class);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> body = gson.fromJson(ctx.body(), Map.class);
             String tipo = (String) body.get("tipo");
-            int index = ((Number) body.getOrDefault("index", 0)).intValue();
+            Number indexRaw = (Number) body.getOrDefault("index", 0);
+            int index = indexRaw != null ? indexRaw.intValue() : 0;
 
             Batalla batalla = sesion.getBatallaActual();
             if (batalla == null || batalla.haTerminado()) {
