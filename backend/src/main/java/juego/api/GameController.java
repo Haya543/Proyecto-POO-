@@ -5,7 +5,6 @@ import io.javalin.Javalin;
 import juego.batalla.Batalla;
 import juego.sesion.SesionJuego;
 
-import java.util.HashMap;
 import java.util.Map;
 
 // Handles all world-level API routes (/api/game/*)
@@ -19,26 +18,33 @@ public class GameController {
         this.gson = gson;
     }
 
+    // Serializes the given object to JSON and sends it as the response body
+    private void json(io.javalin.http.Context ctx, Object obj) {
+        ctx.contentType("application/json").result(gson.toJson(obj));
+    }
+
     public void registrar(Javalin app) {
         // Creates a new game session with the player's name and chosen starter
         app.post("/api/game/new", ctx -> {
-            Map<?, ?> body = gson.fromJson(ctx.body(), Map.class);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> body = gson.fromJson(ctx.body(), Map.class);
             String nombre = (String) body.get("nombre");
-            int starterIndex = ((Number) body.getOrDefault("starterIndex", 0)).intValue();
+            Number starterRaw = (Number) body.getOrDefault("starterIndex", 0);
+            int starterIndex = starterRaw != null ? starterRaw.intValue() : 0;
             sesion.iniciar(nombre, starterIndex);
-            ctx.json(DtoMapper.toGameState(sesion, null));
+            json(ctx, DtoMapper.toGameState(sesion, null));
         });
 
         // Returns the current full game state (used on page load / polling)
         app.get("/api/game/state", ctx -> {
-            ctx.json(DtoMapper.toGameState(sesion, null));
+            json(ctx, DtoMapper.toGameState(sesion, null));
         });
 
         // Attempts a wild encounter in the current zone (40% chance)
         app.post("/api/game/explore", ctx -> {
             Batalla batalla = sesion.explorar();
             String mensaje = batalla != null ? null : "No encontraste nada esta vez...";
-            ctx.json(DtoMapper.toGameState(sesion, mensaje));
+            json(ctx, DtoMapper.toGameState(sesion, mensaje));
         });
 
         // Heals the player's team once per NPC defeat
@@ -50,19 +56,19 @@ public class GameController {
             } else {
                 mensaje = "Ya curaste tu equipo. Derrota al siguiente entrenador primero.";
             }
-            ctx.json(DtoMapper.toGameState(sesion, mensaje));
+            json(ctx, DtoMapper.toGameState(sesion, mensaje));
         });
 
         // Starts a battle against the next NPC in the story sequence
         app.post("/api/game/challenge-npc", ctx -> {
             Batalla batalla = sesion.retarNpc();
             String mensaje = batalla == null ? "No hay mas entrenadores por retar." : null;
-            ctx.json(DtoMapper.toGameState(sesion, mensaje));
+            json(ctx, DtoMapper.toGameState(sesion, mensaje));
         });
 
         // Returns the list of NPCs with their defeated status and dialogue
         app.get("/api/game/npcs", ctx -> {
-            ctx.json(DtoMapper.toNpcList(sesion));
+            json(ctx, DtoMapper.toNpcList(sesion));
         });
     }
 }
