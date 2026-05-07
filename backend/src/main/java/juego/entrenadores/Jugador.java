@@ -74,4 +74,18 @@ public class Jugador extends Entrenador {
     public int getDinero() { return dinero; }
     public int getMedallas() { return medallas; }
     public List<Criatura> getCapturadas() { return capturadas; }
+
+    public void setMedallas(int medallas){
+        this.medallas = medallas;
+    }
+
+    public void setDinero(int dinero){
+        this.dinero = dinero;
+    }
+
+    public int getId(){
+        return 0;
+    }
+
+    
 }
