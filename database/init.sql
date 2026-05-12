@@ -74,7 +74,37 @@ CREATE TABLE especie_movimiento (
 );
 
 -- =========================================================
--- 4. CRIATURAS INDIVIDUALES
+-- 4. ENTRENADORES (clase base)
+-- =========================================================
+CREATE TABLE entrenador (
+    id                      SERIAL PRIMARY KEY,
+    nombre                  VARCHAR(30) NOT NULL,
+    indice_criatura_activa  INT NOT NULL DEFAULT 0
+    -- No FK a criatura porque la criatura activa se calcula en la app
+);
+
+-- =========================================================
+-- 5. JUGADOR
+-- =========================================================
+CREATE TABLE jugador (
+    id_entrenador   INT PRIMARY KEY REFERENCES entrenador(id) ON DELETE CASCADE,
+    dinero          INT NOT NULL DEFAULT 500,
+    medallas        INT NOT NULL DEFAULT 0
+);
+
+-- =========================================================
+-- 6. NPC (Entrenador no jugable)
+-- =========================================================
+CREATE TABLE npc (
+    id_entrenador   INT PRIMARY KEY REFERENCES entrenador(id) ON DELETE CASCADE,
+    dialogo         TEXT NOT NULL,
+    dificultad      VARCHAR(10) NOT NULL CHECK (dificultad IN ('FACIL','MEDIO','DIFICIL','EXPERTO')),
+    recompensa      INT NOT NULL,
+    derrotado       BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+-- =========================================================
+-- 7. CRIATURAS INDIVIDUALES
 -- =========================================================
 CREATE TABLE criatura (
     id                  SERIAL PRIMARY KEY,
@@ -98,36 +128,6 @@ CREATE TABLE criatura_movimiento (
     pp_actual   INT NOT NULL,
     slot        INT NOT NULL CHECK (slot BETWEEN 1 AND 4),
     PRIMARY KEY (criatura_id, slot)
-);
-
--- =========================================================
--- 5. ENTRENADORES (clase base)
--- =========================================================
-CREATE TABLE entrenador (
-    id                      SERIAL PRIMARY KEY,
-    nombre                  VARCHAR(30) NOT NULL,
-    indice_criatura_activa  INT NOT NULL DEFAULT 0
-    -- No FK a criatura porque la criatura activa se calcula en la app
-);
-
--- =========================================================
--- 6. JUGADOR
--- =========================================================
-CREATE TABLE jugador (
-    id_entrenador   INT PRIMARY KEY REFERENCES entrenador(id) ON DELETE CASCADE,
-    dinero          INT NOT NULL DEFAULT 500,
-    medallas        INT NOT NULL DEFAULT 0
-);
-
--- =========================================================
--- 7. NPC (Entrenador no jugable)
--- =========================================================
-CREATE TABLE npc (
-    id_entrenador   INT PRIMARY KEY REFERENCES entrenador(id) ON DELETE CASCADE,
-    dialogo         TEXT NOT NULL,
-    dificultad      VARCHAR(10) NOT NULL CHECK (dificultad IN ('FACIL','MEDIO','DIFICIL','EXPERTO')),
-    recompensa      INT NOT NULL,
-    derrotado       BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 -- =========================================================

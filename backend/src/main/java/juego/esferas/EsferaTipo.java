@@ -9,7 +9,7 @@ public class EsferaTipo extends PokeEsfera {
     private final TipoElemento tipoObjetivo;
 
     public EsferaTipo(TipoElemento tipoObjetivo) {
-        super("Esfera Tipo", 1.5);
+        super("Esfera Tipo " + tipoObjetivo.toString(), 1.5);
         this.tipoObjetivo = tipoObjetivo;
     }
 
