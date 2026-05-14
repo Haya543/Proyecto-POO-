@@ -1,4 +1,4 @@
-package juego.db;
+package juego;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

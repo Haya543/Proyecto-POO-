@@ -6,9 +6,14 @@ import juego.criaturas.instancias.*;
 import juego.entrenadores.EntrenadorNPC;
 import juego.entrenadores.Jugador;
 import juego.enums.TipoElemento;
+import juego.DatabaseConnection;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 // Holds all mutable state for one game session. Single instance per server process.
 public class SesionJuego {
@@ -46,6 +51,9 @@ public class SesionJuego {
         TipoElemento starterTipo = starter.getTipo();
         this.npcs = new ArrayList<>();
         npcs.add(EntrenadorNPC.rival(starterTipo));
+        npcs.add(EntrenadorNPC.rivalFacil(jugador.getEquipo()));
+        npcs.add(EntrenadorNPC.rivalNormal(jugador.getEquipo()));
+        npcs.add(EntrenadorNPC.rivalDificil(jugador.getEquipo()));
         npcs.add(EntrenadorNPC.liderMarina());
         npcs.add(EntrenadorNPC.liderBrenno());
         npcs.add(EntrenadorNPC.campeonRex());

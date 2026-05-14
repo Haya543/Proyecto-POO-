@@ -6,6 +6,7 @@ juego/criaturas/instancias/Aqua.class
 juego/api/BattleController.class
 juego/criaturas/CriaturaAgua.class
 juego/batalla/Batalla.class
+juego/entrenadores/EntrenadorNPC$1.class
 juego/sesion/SesionJuego$Fase.class
 juego/enums/NivelDificultad.class
 juego/objetos/Objeto.class

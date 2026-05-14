@@ -1,38 +1,39 @@
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/Main.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/api/BattleController.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/api/DtoMapper.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/api/GameController.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/batalla/Batalla.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/Capturable.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/Criatura.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/CriaturaAgua.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/CriaturaElectrico.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/CriaturaFuego.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/CriaturaNormal.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/CriaturaPlanta.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/Nivelable.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/instancias/Aqua.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/instancias/Fumeo.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/instancias/Glacius.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/instancias/Gorgon.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/instancias/Herba.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/instancias/Ignis.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/instancias/Terron.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/criaturas/instancias/Voltix.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/entrenadores/Entrenador.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/entrenadores/EntrenadorNPC.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/entrenadores/Jugador.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/enums/Categoria.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/enums/NivelDificultad.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/enums/TipoElemento.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/esferas/EsferaHP.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/esferas/EsferaNormal.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/esferas/EsferaTipo.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/esferas/MasterEsfera.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/esferas/PokeEsfera.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/esferas/SuperEsfera.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/esferas/UltraEsfera.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/movimientos/Movimiento.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/objetos/Objeto.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/objetos/ObjetoCuracion.java
-/Users/iosoypato/Documents/ITESO/POO/Proyecto-POO-/backend/src/main/java/juego/sesion/SesionJuego.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/DatabaseConnection.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/Main.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/api/BattleController.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/api/DtoMapper.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/api/GameController.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/batalla/Batalla.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/Capturable.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/Criatura.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/CriaturaAgua.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/CriaturaElectrico.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/CriaturaFuego.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/CriaturaNormal.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/CriaturaPlanta.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/Nivelable.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/instancias/Aqua.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/instancias/Fumeo.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/instancias/Glacius.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/instancias/Gorgon.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/instancias/Herba.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/instancias/Ignis.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/instancias/Terron.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/criaturas/instancias/Voltix.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/entrenadores/Entrenador.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/entrenadores/EntrenadorNPC.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/entrenadores/Jugador.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/enums/Categoria.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/enums/NivelDificultad.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/enums/TipoElemento.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/esferas/EsferaHP.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/esferas/EsferaNormal.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/esferas/EsferaTipo.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/esferas/MasterEsfera.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/esferas/PokeEsfera.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/esferas/SuperEsfera.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/esferas/UltraEsfera.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/movimientos/Movimiento.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/objetos/Objeto.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/objetos/ObjetoCuracion.java
+/Users/Kevochila/Library/CloudStorage/OneDrive-ITESO/Semestre 5/POO/Proyecto-POO/backend/src/main/java/juego/sesion/SesionJuego.java
