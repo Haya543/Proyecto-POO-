@@ -43,5 +43,6 @@ public class Main {
 
         app.start(7070);
         System.out.println("Servidor iniciado en http://localhost:7070");
+        app.get("/", ctx -> ctx.result("Servidor funcionando correctamente"));
     }
 }

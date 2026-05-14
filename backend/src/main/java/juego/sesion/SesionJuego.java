@@ -48,13 +48,13 @@ public class SesionJuego {
         this.puedesCurar = true;
 
         // Build the NPC sequence with knowledge of the player's starter type
-        TipoElemento starterTipo = starter.getTipo();
+       // TipoElemento starterTipo = starter.getTipo();
         this.npcs = new ArrayList<>();
-        npcs.add(EntrenadorNPC.rival(starterTipo));
+        //npcs.add(EntrenadorNPC.rival(starterTipo));
         npcs.add(EntrenadorNPC.rivalFacil(jugador.getEquipo()));
         npcs.add(EntrenadorNPC.rivalNormal(jugador.getEquipo()));
-        npcs.add(EntrenadorNPC.rivalDificil(jugador.getEquipo()));
         npcs.add(EntrenadorNPC.liderMarina());
+        npcs.add(EntrenadorNPC.rivalDificil(jugador.getEquipo()));
         npcs.add(EntrenadorNPC.liderBrenno());
         npcs.add(EntrenadorNPC.campeonRex());
     }
@@ -109,7 +109,6 @@ public class SesionJuego {
 
     public void curarEquipo() {
         jugador.curarEquipo();
-        puedesCurar = false;
     }
 
     // Picks a random wild creature appropriate to the current zone

@@ -1,10 +1,15 @@
 package juego.entrenadores;
 
 import juego.criaturas.Criatura;
+import juego.esferas.EsferaHP;
 import juego.esferas.EsferaNormal;
+import juego.esferas.EsferaTipo;
+import juego.esferas.MasterEsfera;
 import juego.esferas.PokeEsfera;
+import juego.esferas.SuperEsfera;
 import juego.objetos.ObjetoCuracion;
 import juego.objetos.Objeto;
+import juego.enums.TipoElemento;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +40,13 @@ public class Jugador extends Entrenador {
         for (int i = 0; i < 5; i++) {
             esferas.add(new EsferaNormal());
         }
+        esferas.add(new EsferaHP());
+        esferas.add(new SuperEsfera());
+        esferas.add(new EsferaTipo(TipoElemento.FUEGO));
+        esferas.add(new EsferaTipo(TipoElemento.AGUA));
+        esferas.add(new EsferaTipo(TipoElemento.PLANTA));
+        esferas.add(new MasterEsfera());
+
     }
 
     // Uses an item from the bag on a creature; item tracks its own quantity
