@@ -1,0 +1,28 @@
+flowchart TD
+    A[Inicio del turno] --> B[Jugador elige índice de movimiento]
+    B --> C{¿Movimiento válido y con PP?}
+    C -- No --> D["Registrar 'no puede usar ese movimiento'"]
+    D --> Z[Fin del turno]
+    C -- Sí --> E{¿Es combate contra NPC?}
+    E -- Sí --> F[NPC elige movimiento según dificultad]
+    E -- No --> G[Elegir movimiento aleatorio para criatura salvaje]
+    F --> H{¿Velocidad del jugador ≥ rival?}
+    G --> H
+    H -- Sí --> I[Atacante: jugador, Defensor: rival]
+    H -- No --> J[Atacante: rival, Defensor: jugador]
+    I --> K[Ejecutar ataque del jugador]
+    K --> L{¿Rival sigue vivo?}
+    L -- Sí --> M[Ejecutar ataque del rival]
+    L -- No --> N
+    J --> O[Ejecutar ataque del rival]
+    O --> P{¿Jugador sigue vivo?}
+    P -- Sí --> Q[Ejecutar ataque del jugador]
+    P -- No --> N
+    M --> N[Activar habilidades pasivas de ambos]
+    Q --> N
+    N --> R[Verificar fin de batalla]
+    R --> S{¿Algún equipo sin criaturas vivas?}
+    S -- Sí --> T[Determinar ganador y distribuir recompensas]
+    T --> Z
+    S -- No --> U[Fin del turno, preparar siguiente]
+    U --> Z

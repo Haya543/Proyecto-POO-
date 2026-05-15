@@ -1,0 +1,191 @@
+classDiagram
+    class Capturable {
+        <<interface>>
+        +detTasaCaptura() double
+        +getTipo() TipoElemento
+        +getHpActual() int
+        +getHpMax() int
+    }
+
+    class Nivelable {
+        <<interface>>
+        +ganarExp(int exp) void
+        +subirNivel() void
+        +getNivel() int
+    }
+
+    class Criatura {
+        <<abstract>>
+        #nombre: String
+        #nivel: int
+        #hp: int
+        #hpMax: int
+        #ataque: int
+        #defensa: int
+        #velocidad: int
+        #expTotal: int
+        #expSiguienteNivel: int
+        #tipo: TipoElemento
+        #movimientos: Movimiento[]
+        #tasaCaptura: double
+        +Criatura(...)
+        +atacar(Movimiento mov) int
+        +recibirDanio(int danio) void
+        +estaViva() boolean
+        +ganarExp(int exp) void
+        +subirNivel() void
+        +curar(int cantidad) void
+        +curarCompleto() void
+        +habilidadEspecial()* void
+        +getters...
+    }
+
+    class CriaturaFuego {
+        -calor: int
+        +habilidadEspecial() void
+    }
+    class CriaturaAgua {
+        +habilidadEspecial() void
+    }
+    class CriaturaPlanta {
+        +habilidadEspecial() void
+    }
+    class CriaturaElectrico {
+        +habilidadEspecial() void
+    }
+    class CriaturaNormal {
+        +habilidadEspecial() void
+    }
+
+    class Movimiento {
+        -nombre: String
+        -tipo: TipoElemento
+        -categoria: Categoria
+        -poder: int
+        -precision: int
+        -ppActual: int
+        -ppMax: int
+        +usar() boolean
+        +restaurarPP() void
+        +tienePP() boolean
+        +static factory methods...
+    }
+
+    class TipoElemento {
+        <<enumeration>>
+        FUEGO
+        AGUA
+        PLANTA
+        ELECTRICO
+        NORMAL
+        ...
+        +getMultiplicador(TipoElemento atacante) double
+    }
+
+    class Categoria {
+        <<enumeration>>
+        FISICO
+        ESPECIAL
+        ESTADO
+    }
+
+    class Entrenador {
+        <<abstract>>
+        #nombre: String
+        #equipo: List~Criatura~
+        #indiceCriaturaActiva: int
+        +getCriaturaActiva() Criatura
+        +tieneCriaturasVivas() boolean
+        +elegirCriatura() Criatura
+        +cambiarCriatura(int indice) void
+        +avanzarSiguienteViva() void
+        +agregarCriatura(Criatura c) void
+    }
+
+    class Jugador {
+        -bolsa: List~Objeto~
+        -esferas: List~PokeEsfera~
+        -dinero: int
+        -medallas: int
+        -capturadas: List~Criatura~
+        +usarObjeto(int indice, Criatura c) String
+        +lanzarEsfera(int indice, Criatura c) boolean
+        +curarEquipo() void
+        +ganarDinero(int cantidad) void
+        +ganarMedalla() void
+    }
+
+    class EntrenadorNPC {
+        -dialogo: String
+        -dificultad: NivelDificultad
+        -recompensa: int
+        -derrotado: boolean
+        +elegirMovimiento(Criatura propia, Criatura rival) Movimiento
+        +saludar() String
+        +isDerrotado() boolean
+        +setDerrotado(boolean d) void
+        +static factory methods...
+    }
+
+    class Batalla {
+        -jugador: Jugador
+        -npc: EntrenadorNPC
+        -criaturaRival: Criatura
+        -esEncuentroSalvaje: boolean
+        -turnoActual: int
+        -activa: boolean
+        -ganador: String
+        +ejecutarTurno(int movIndexJugador) List~String~
+        -ejecutarAtaque(Criatura atacante, Movimiento mov, Criatura defensor) List~String~
+        -calcularDanio(Movimiento mov, Criatura atacante, Criatura defensor) int
+        -verificarFin(List~String~ log) void
+        -pickWildMove(Criatura criatura) Movimiento
+        -distribuirExp(List~String~ log) void
+    }
+
+    class PokeEsfera {
+        <<abstract>>
+        +lanzar(Criatura c) boolean
+        +getNombre() String
+    }
+    class EsferaNormal
+    class EsferaHP
+    class SuperEsfera
+    class EsferaTipo
+    class MasterEsfera
+
+    class Objeto {
+        <<abstract>>
+        +usar(Criatura c) void
+        +tieneStock() boolean
+        +getNombre() String
+    }
+    class ObjetoCuracion
+
+    Capturable <|.. Criatura
+    Nivelable <|.. Criatura
+    Criatura <|-- CriaturaFuego
+    Criatura <|-- CriaturaAgua
+    Criatura <|-- CriaturaPlanta
+    Criatura <|-- CriaturaElectrico
+    Criatura <|-- CriaturaNormal
+    Criatura *-- Movimiento : movimientos[]
+    Criatura --> TipoElemento : tipo
+    Movimiento --> TipoElemento : tipo
+    Movimiento --> Categoria : categoria
+    Entrenador <|-- Jugador
+    Entrenador <|-- EntrenadorNPC
+    Entrenador o-- Criatura : equipo
+    Jugador *-- Objeto : bolsa
+    Jugador *-- PokeEsfera : esferas
+    Jugador --> Criatura : capturadas
+    Batalla --> Jugador : jugador
+    Batalla --> EntrenadorNPC : npc
+    Batalla --> Criatura : criaturaRival
+    EntrenadorNPC --> NivelDificultad : dificultad
+    PokeEsfera <|-- EsferaNormal
+    PokeEsfera <|-- EsferaHP
+    PokeEsfera <|-- SuperEsfera
+    PokeEsfera <|-- EsferaTipo
+    PokeEsfera <|-- MasterEsfera
+    Objeto <|-- ObjetoCuracion
